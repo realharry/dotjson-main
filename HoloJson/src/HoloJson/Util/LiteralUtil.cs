@@ -1,3 +1,4 @@
+using HoloJson.Common;
 using HoloJson.Core;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace HoloJson.Common
+namespace HoloJson.Util
 {
 	public static class LiteralUtil
 	{

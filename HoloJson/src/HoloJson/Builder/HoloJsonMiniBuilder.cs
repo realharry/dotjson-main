@@ -1,5 +1,6 @@
 using HoloJson.Common;
 using HoloJson.Core;
+using HoloJson.Lite;
 using HoloJson.Util;
 using System;
 using System.Collections.Generic;

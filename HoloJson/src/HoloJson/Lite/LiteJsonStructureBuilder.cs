@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-namespace HoloJson
+
+namespace HoloJson.Lite
 {
 	public interface LiteJsonStructureBuilder
 	{

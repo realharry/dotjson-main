@@ -1,7 +1,7 @@
 using HoloJson.Common;
 
 
-namespace HoloJson
+namespace HoloJson.Lite
 {
 	public interface LiteJsonTokenizer
 	{
