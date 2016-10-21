@@ -1,3 +1,4 @@
+using HoloJson.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace HoloJson.Core
+namespace HoloJson.Parser.Core
 {
     /*
      * "Ring buffer" implementation. It's a FIFO queue.
