@@ -9,9 +9,9 @@ using System.IO;
 using System.Threading.Tasks;
 
 
-namespace HoloJson.Builder
+namespace HoloJson.Lite.Builder
 {
-	public sealed class HoloJsonMiniBuilder : LiteJsonBuilder
+	public sealed class LiteJsonBuilder : Lite.LiteJsonBuilder
 	{
 		// Default value.
 		// private const int DEF_DRILL_DOWN_DEPTH = 2;
@@ -32,7 +32,7 @@ namespace HoloJson.Builder
 		// ...
 
 
-		public HoloJsonMiniBuilder()
+		public LiteJsonBuilder()
 		{
 		}
 
@@ -84,16 +84,16 @@ namespace HoloJson.Builder
             if (GenericUtil.IsDictionary(obj) || GenericUtil.IsList(obj) || obj.GetType().IsArray || obj is Collection<Object>) {
                 jsonObj = obj;
 			} else {
-				// ???
-				// throw new HoloJsonMiniException("Top level element should be an object or an array/list.");
-				// ...
-				// We support a generic "object" by converting it to a nested map/list structure (most likely, a single level map). 
-				// Note that this automatic conversion is for convenience only, and
-				//     we only support an object at the top-level object (which recurses down its structure, however), not [object] or {k:object}.
-				// If the user wants such a support for more complex collections,
-				//    then he/she needs to call HoloJsonMiniStructureBuilder.BuildJsonStructure(obj/[]/{}, depth) explicitly
-				//    before calling HoloJsonMiniBuilder.buildJson().
-				LiteJsonStructureBuilder structureBuilder = new HoloJsonMiniStructureBuilder();
+                // ???
+                // throw new HoloJsonMiniException("Top level element should be an object or an array/list.");
+                // ...
+                // We support a generic "object" by converting it to a nested map/list structure (most likely, a single level map). 
+                // Note that this automatic conversion is for convenience only, and
+                //     we only support an object at the top-level object (which recurses down its structure, however), not [object] or {k:object}.
+                // If the user wants such a support for more complex collections,
+                //    then he/she needs to call HoloJsonMiniStructureBuilder.BuildJsonStructure(obj/[]/{}, depth) explicitly
+                //    before calling HoloJsonMiniBuilder.buildJson().
+                Lite.LiteJsonStructureBuilder structureBuilder = new LiteJsonStructureBuilder();
 				jsonObj = await structureBuilder.BuildJsonStructureAsync(obj);
 			}
 

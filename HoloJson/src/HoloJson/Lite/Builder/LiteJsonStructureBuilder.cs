@@ -10,13 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace HoloJson.Builder
+namespace HoloJson.Lite.Builder
 {
 	// Note that this class is primarily used to convert an object to the map/list tree structure.
 	//    (The default depth is DEF_DRILL_DOWN_DEPTH.)
 	// Then the tree structure is fed into HoloJsonMiniBuilder (which has a default depth of MAX_DRILL_DOWN_DEPTH)
 	//    to get the JSON string.
-	public sealed class HoloJsonMiniStructureBuilder : LiteJsonStructureBuilder
+	public sealed class LiteJsonStructureBuilder : Lite.LiteJsonStructureBuilder
 	{
 		// Default value.
 		// private const int DEF_DRILL_DOWN_DEPTH = 2;
@@ -32,7 +32,7 @@ namespace HoloJson.Builder
 		// ...
 
 
-		public HoloJsonMiniStructureBuilder()
+		public LiteJsonStructureBuilder()
 		{
 		}
 

@@ -8,24 +8,24 @@ using System.IO;
 using System.Threading.Tasks;
 
 
-namespace HoloJson.Parser
+namespace HoloJson.Lite.Parser
 {
 	// Recursive descent parser implementation using Java types.
-	public sealed class HoloJsonMiniParser : LiteJsonParser
+	public sealed class LiteJsonParser : Lite.LiteJsonParser
 	{
 		// temporary
 		private const int HEAD_TRACE_LENGTH = 35;
 		// ...
 
 
-		public HoloJsonMiniParser()
+		public LiteJsonParser()
 		{
 		}
 
-		private char[] PeekCharStream(LiteJsonTokenizer tokenizer)
+		private char[] PeekCharStream(Lite.LiteJsonTokenizer tokenizer)
 		{
-			if(tokenizer is HoloJsonMiniTokenizer) {
-				return ((HoloJsonMiniTokenizer) tokenizer).PeekCharStream(HEAD_TRACE_LENGTH);
+			if(tokenizer is LiteJsonTokenizer) {
+				return ((LiteJsonTokenizer) tokenizer).PeekCharStream(HEAD_TRACE_LENGTH);
 			} else {
 				return null;
 			}
@@ -87,16 +87,16 @@ namespace HoloJson.Parser
 				return null;
 			}
 
-			// TBD:
-			// Does this make it thread safe???
-			// ...
+            // TBD:
+            // Does this make it thread safe???
+            // ...
 
-			LiteJsonTokenizer jsonTokenizer = null;
-			jsonTokenizer = new HoloJsonMiniTokenizer(reader);
+            Lite.LiteJsonTokenizer jsonTokenizer = null;
+			jsonTokenizer = new LiteJsonTokenizer(reader);
 
 			return _Parse(jsonTokenizer);
 		}
-		private object _Parse(LiteJsonTokenizer tokenizer)
+		private object _Parse(Lite.LiteJsonTokenizer tokenizer)
 		{
 			if(tokenizer == null) {
 				return null;
@@ -122,7 +122,7 @@ namespace HoloJson.Parser
 		}
 		
 		
-		private IDictionary<String,Object> ProduceJsonObject(LiteJsonTokenizer tokenizer)
+		private IDictionary<String,Object> ProduceJsonObject(Lite.LiteJsonTokenizer tokenizer)
 		{
 			var lcurl = NextAndGetType(tokenizer);   // pop the leading {.
 			if(lcurl != TokenType.LCURLY) {
@@ -157,7 +157,7 @@ namespace HoloJson.Parser
 
 		
 	 
-		private IDictionary<String,Object> ProduceJsonObjectMembers(LiteJsonTokenizer tokenizer)
+		private IDictionary<String,Object> ProduceJsonObjectMembers(Lite.LiteJsonTokenizer tokenizer)
 		{
 			IDictionary<String,Object> members = new Dictionary<String,Object>();
 			
@@ -178,7 +178,7 @@ namespace HoloJson.Parser
 			System.Diagnostics.Debug.WriteLine("members = " + members);
 			return members;
 		}
-		private KeyValuePair<String,Object> ProduceJsonObjectMember(LiteJsonTokenizer tokenizer)
+		private KeyValuePair<String,Object> ProduceJsonObjectMember(Lite.LiteJsonTokenizer tokenizer)
 		{
 			JsonToken keyToken = NextAndGetToken(tokenizer);
 			var keyType = keyToken.Type;
@@ -228,7 +228,7 @@ namespace HoloJson.Parser
 
 
 		
-		private IList<Object> ProduceJsonArray(LiteJsonTokenizer tokenizer)
+		private IList<Object> ProduceJsonArray(Lite.LiteJsonTokenizer tokenizer)
 		{
 			TokenType lsq;
 			lsq = NextAndGetType(tokenizer);             
@@ -262,7 +262,7 @@ namespace HoloJson.Parser
 			return jArray;
 		}
 
-		private IList<Object> ProduceJsonArrayElements(LiteJsonTokenizer tokenizer)
+		private IList<Object> ProduceJsonArrayElements(Lite.LiteJsonTokenizer tokenizer)
 		{
 			IList<Object> elements = new List<Object>();
 
@@ -285,7 +285,7 @@ namespace HoloJson.Parser
 			System.Diagnostics.Debug.WriteLine("elements = " + elements);
 			return elements;
 		}
-		private object ProduceJsonArrayElement(LiteJsonTokenizer tokenizer)
+		private object ProduceJsonArrayElement(Lite.LiteJsonTokenizer tokenizer)
 		{
 			object element = null;
 			var type = PeekAndGetType(tokenizer);
@@ -317,7 +317,7 @@ namespace HoloJson.Parser
 			return element;
 		}
 
-		private JsonToken PeekAndGetToken(LiteJsonTokenizer tokenizer)
+		private JsonToken PeekAndGetToken(Lite.LiteJsonTokenizer tokenizer)
 		{
 			JsonToken s = tokenizer.Peek();
 			if(JsonToken.IsInvalid(s)) {
@@ -326,7 +326,7 @@ namespace HoloJson.Parser
 			return s;
 		}
         //private int PeekAndGetType(LiteJsonTokenizer tokenizer)
-		private TokenType PeekAndGetType(LiteJsonTokenizer tokenizer)
+		private TokenType PeekAndGetType(Lite.LiteJsonTokenizer tokenizer)
 		{
 			JsonToken s = tokenizer.Peek();
             if (JsonToken.IsInvalid(s)) {
@@ -335,7 +335,7 @@ namespace HoloJson.Parser
             var type = s.Type;
 			return type;
 		}
-		private JsonToken NextAndGetToken(LiteJsonTokenizer tokenizer)
+		private JsonToken NextAndGetToken(Lite.LiteJsonTokenizer tokenizer)
 		{
 			JsonToken s = tokenizer.Next();
             if (JsonToken.IsInvalid(s)) {
@@ -344,7 +344,7 @@ namespace HoloJson.Parser
 			return s;
 		}
         //private int NextAndGetType(LiteJsonTokenizer tokenizer)
-        private TokenType NextAndGetType(LiteJsonTokenizer tokenizer)
+        private TokenType NextAndGetType(Lite.LiteJsonTokenizer tokenizer)
         {
 			JsonToken s = tokenizer.Next();
 			if(JsonToken.IsInvalid(s)) {
@@ -354,7 +354,7 @@ namespace HoloJson.Parser
 			return type;
 		}
 
-		private string ProduceJsonString(LiteJsonTokenizer tokenizer)
+		private string ProduceJsonString(Lite.LiteJsonTokenizer tokenizer)
 		{
 			string jString = null;
 			try {
@@ -368,7 +368,7 @@ namespace HoloJson.Parser
 			return jString;
 		}
         // ????
-		private object ProduceJsonNumber(LiteJsonTokenizer tokenizer)
+		private object ProduceJsonNumber(Lite.LiteJsonTokenizer tokenizer)
 		{
 			object jNumber = null;
 			try {
@@ -384,7 +384,7 @@ namespace HoloJson.Parser
 			}
 			return jNumber;
 		}
-		private bool ProduceJsonBoolean(LiteJsonTokenizer tokenizer)
+		private bool ProduceJsonBoolean(Lite.LiteJsonTokenizer tokenizer)
 		{
 			bool jBoolean = false;   // ?????
 			try {
@@ -396,7 +396,7 @@ namespace HoloJson.Parser
 			return jBoolean;
 		}
 
-		private object ProduceJsonNull(LiteJsonTokenizer tokenizer)
+		private object ProduceJsonNull(Lite.LiteJsonTokenizer tokenizer)
 		{
 			object jNull = null;
 			try {

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace HoloJson.Parser
+namespace HoloJson.Lite.Parser
 {
 	// Base class for JsonTokenizer implementation.
 	// TBD: 
@@ -20,7 +20,7 @@ namespace HoloJson.Parser
 	// Note:
 	// Current implementation is not thread-safe (and, probably, never will be).
 	// 
-	public sealed class HoloJsonMiniTokenizer : LiteJsonTokenizer
+	public sealed class LiteJsonTokenizer : Lite.LiteJsonTokenizer
 	{
 		// MAX_STRING_LOOKAHEAD_SIZE should be greater than 6.
 		private const int MAX_STRING_LOOKAHEAD_SIZE = 128;   // temporary
@@ -54,15 +54,15 @@ namespace HoloJson.Parser
 		// private bool lookAheadParsing;
 
 		// Ctor's
-		public HoloJsonMiniTokenizer(string str)
+		public LiteJsonTokenizer(string str)
             : this(new StringReader(str))
 		{
 		}
-		public HoloJsonMiniTokenizer(TextReader reader)
+		public LiteJsonTokenizer(TextReader reader)
             : this(reader, CHARQUEUE_SIZE)
 		{
 		}
-		public HoloJsonMiniTokenizer(TextReader reader, int charQueueSize)
+		public LiteJsonTokenizer(TextReader reader, int charQueueSize)
 		{
 			// TextReader cannot cannot be null.
 			this.reader = reader;
