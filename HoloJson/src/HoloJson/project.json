@@ -1,12 +1,36 @@
 ﻿{
+  "name": "HoloJson",
   "version": "1.0.0-*",
+  "title": "HoloJson Library",
+  "description": "JSON Parser/Serializer for .Net Core.",
+  "copyright": "Copyright 2016",
+  "authors": [
+    "Harry Y"
+  ],
+
+  "packOptions": {
+    "summary": "JSON library for .Net Core. Flexible JSON parser and JSON Serializer.",
+    "tags": [
+      "JSON",
+      "DotNet Core",
+      "CSharp"
+    ],
+    "owners": [
+      "Harry Y"
+    ],
+    "releaseNotes": "Initial release.",
+    "projectUrl": "https://github.com/holojson/main",
+    "licenseUrl": "https://github.com/holojson/main/blob/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
 
   "dependencies": {
+    "Microsoft.CSharp": "4.0.1",
     "NETStandard.Library": "1.6.0"
   },
 
   "frameworks": {
-    "netstandard1.6": {
+    "netstandard1.4": {
       "imports": "dnxcore50"
     }
   }
