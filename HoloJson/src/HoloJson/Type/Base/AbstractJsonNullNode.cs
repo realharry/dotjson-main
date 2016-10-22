@@ -19,10 +19,23 @@ namespace HoloJson.Type.Base
         ///////////////////////////////////
         // JsonNode interface
 
-        public override object GetValue()
+        //public override object GetValue()
+        //{
+        //    return null;
+        //}
+
+        public override object Value
         {
-            return null;
+            get
+            {
+                return null;
+            }
+            set
+            {
+                // no op.
+            }
         }
+
 
         ///////////////////////////////////
         // JsonSerializable interface

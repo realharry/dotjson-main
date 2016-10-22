@@ -12,7 +12,9 @@ namespace HoloJson.Type.Base
         {
         }
 
-        public abstract object GetValue();
+
+        // public abstract object GetValue();
+        public abstract object Value { get; set; }
 
         public abstract string ToJsonString();
 

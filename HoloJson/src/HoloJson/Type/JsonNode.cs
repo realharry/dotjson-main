@@ -17,7 +17,8 @@ namespace HoloJson.Type
         /// Returns the "value" of this node, that is, a Map, a List, a String, etc...
         /// </summary>
         /// <returns>The value of this node.</returns>
-        object GetValue();
+        // object GetValue();
+        object Value { get; }
 
         //    boolean isObject();
         //    boolean isArray();

@@ -33,12 +33,12 @@ namespace HoloJson.Type.Base
         ///////////////////////////////////
         // JsonNode interface
 
-        public override object GetValue()
-        {
-            // ???
-            return this.map;
-        }
-        public object Value
+        //public override object GetValue()
+        //{
+        //    // ???
+        //    return this.map;
+        //}
+        public override object Value
         {
             get
             {
@@ -188,8 +188,8 @@ namespace HoloJson.Type.Base
         public void AddMember(JsonObjectMember member)
         {
             if (member != null) {
-                string key = member.GetKey();
-                JsonNode node = member.GetValue();
+                string key = member.Key;
+                JsonNode node = member.Value;
                 map[key] = node;
             }
         }
@@ -198,8 +198,8 @@ namespace HoloJson.Type.Base
         {
             if (members != null && members.Any()) {
                 foreach (JsonObjectMember m in members) {
-                    string key = m.GetKey();
-                    JsonNode node = m.GetValue();
+                    string key = m.Key;
+                    JsonNode node = m.Value;
                     map[key] = node;
                 }
             }

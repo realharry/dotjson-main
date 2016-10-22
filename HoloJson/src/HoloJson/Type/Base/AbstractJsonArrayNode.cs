@@ -34,12 +34,12 @@ namespace HoloJson.Type.Base
         ///////////////////////////////////
         // JsonNode interface
 
-        public override object GetValue()
-        {
-            // ???
-            return this.list;
-        }
-        public object Value
+        //public override object GetValue()
+        //{
+        //    // ???
+        //    return this.list;
+        //}
+        public override object Value
         {
             get
             {

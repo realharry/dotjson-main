@@ -9,7 +9,9 @@ namespace HoloJson.Type
     // Not a JsonNode ????
     public interface JsonObjectMember // : JsonNode
     {
-        string GetKey();
-        JsonNode GetValue();
+        // string GetKey();
+        // JsonNode GetValue();
+        string Key { get; }
+        JsonNode Value { get; }
     }
 }

@@ -24,11 +24,11 @@ namespace HoloJson.Type.Base
         ///////////////////////////////////
         // JsonNode interface
 
-        public override object GetValue()
-        {
-            return this.value;
-        }
-        public object Value
+        //public override object GetValue()
+        //{
+        //    return this.value;
+        //}
+        public override object Value
         {
             get
             {

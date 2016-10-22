@@ -20,10 +20,10 @@ namespace HoloJson.Type.Base
             this.value = value;
         }
 
-        public string GetKey()
-        {
-            return key;
-        }
+        //public string GetKey()
+        //{
+        //    return key;
+        //}
         public string Key
         {
             get
@@ -36,10 +36,10 @@ namespace HoloJson.Type.Base
             }
         }
 
-        public JsonNode GetValue()
-        {
-            return value;
-        }
+        //public JsonNode GetValue()
+        //{
+        //    return value;
+        //}
         public JsonNode Value
         {
             get
