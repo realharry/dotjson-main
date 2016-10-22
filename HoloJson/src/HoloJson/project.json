@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "HoloJson",
   "version": "1.0.0-*",
   "title": "HoloJson Library",
@@ -26,6 +26,7 @@
 
   "dependencies": {
     "Microsoft.CSharp": "4.0.1",
+    "Microsoft.Extensions.Logging": "1.0.0",
     "NETStandard.Library": "1.6.0"
   },
 
