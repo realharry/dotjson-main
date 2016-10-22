@@ -19,6 +19,10 @@ namespace HoloJson.Common
             : base(message, innerException)
         {
         }
+        public JsonException(Exception innerException)
+            : base(null, innerException)
+        {
+        }
 
     }
 }
