@@ -25,32 +25,30 @@ namespace HoloJson.Parser.Core
 
         // tbd:
         public JsonTokenBuffer() 
-            // : this(DEF_BUFFER_SIZE)
-            : base(typeof(JsonToken))
+            : this(DEF_BUFFER_SIZE)
         {
         }
         // tbd:
-  //      public JsonTokenBuffer(int capacity) : base(capacity)
-  //      {
-  //      }
-  //      public JsonTokenBuffer(int capacity, bool fair) : base(capacity, fair)
-  //      {
-  //      }
-  //      public JsonTokenBuffer<T1>(int capacity, bool fair, ICollection<T1> c) where T1 : JsonToken 
-  //          : base(capacity, fair, c)
-		//{
-		//}
+        public JsonTokenBuffer(uint capacity) 
+            : base(capacity)
+        {
+        }
+        public JsonTokenBuffer(uint capacity, IList<JsonToken> c)
+            : base(capacity, c)
+		{
+		}
 
 
 		// temporary
-		public /* override */ string ToTraceString()
+		public override string ToTraceString()
         {
             //        JsonToken[] tokens = toArray(new JsonToken[]{});
             //        return Arrays.toString(tokens);
 
             StringBuilder sb = new StringBuilder();
             sb.Append("((Processed Tokens: ...");
-            var it = base.buffer().GetEnumerator();
+            // var it = base.Buffer.GetEnumerator();
+            var it = GetEnumerator();
             while (it.MoveNext()) {
                 var token = (JsonToken) it.Current;
                 var type = token.Type;

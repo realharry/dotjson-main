@@ -22,33 +22,32 @@ namespace HoloJson.Parser.Core
         //    private static final int MIN_BUFFER_SIZE = 8;
         //    // ...
 
-        
+
         // tbd:
         public JsonNodeBuffer()
-            // : this(DEF_BUFFER_SIZE)
-            : base(typeof(JsonNode))
+            : this(DEF_BUFFER_SIZE)
         {
         }
         // tbd:
-  //      public JsonNodeBuffer(int capacity) : base(capacity)
-  //      {
-  //      }
-  //      public JsonNodeBuffer(int capacity, bool fair) : base(capacity, fair)
-  //      {
-  //      }
-  //      public JsonNodeBuffer<T1>(int capacity, bool fair, ICollection<T1> c) where T1 : JsonNode 
-  //          : base(capacity, fair, c)
-		//{
-		//}
+        public JsonNodeBuffer(uint capacity)
+            : base(capacity)
+        {
+        }
+        public JsonNodeBuffer(uint capacity, IList<JsonNode> c)
+            : base(capacity, c)
+        {
+        }
 
-		public /* override */ string ToTraceString()
+
+        public override string ToTraceString()
         {
             //        JsonNode[] nodes = toArray(new JsonNode[]{});
             //        return Arrays.toString(nodes);
 
             StringBuilder sb = new StringBuilder();
             sb.Append("<<Processed Nodes: ...");
-            var it = base.buffer().GetEnumerator();
+            // var it = base.Buffer.GetEnumerator();
+            var it = GetEnumerator();
             while (it.MoveNext()) {
                 object node = it.Current;
                 object value = null;

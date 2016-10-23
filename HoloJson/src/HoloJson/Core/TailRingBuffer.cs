@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +13,16 @@ namespace HoloJson.Core
     /// TailRingBuffer can be used to keep the "last X objects that have been read" while reading an object stream. 
     /// (Note: the implementation is not thread-safe.)
     /// </summary>
-    public class TailRingBuffer<T>
+    public class TailRingBuffer<T> : IEnumerable<T>
     {
         // Note: This is essentially a copy of (a generic version of) CharQueue.
         // For object types such as JsonToken and JsonNode, this is really not necessary.
-        // We can just use ArrayBlockingQuue.
+        // We can just use Java ArrayBlockingQuue.
+        // What's the C# equivalent of ArrayBlockingQuue ????
 
-        // Note --> Now we have TailArrayBuffer...
-        // ....
-
+        // Note: 10/22/2016
+        // Added "queue" operations. This is no longer just a "tail buffer".
+        // ...
 
         //    // temporary
         //    private static final int MAX_BUFFER_SIZE = 4096;
@@ -29,8 +31,7 @@ namespace HoloJson.Core
         //    // ...
 
         // Internal buffer.
-        //JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods:
-        private readonly T[] buffer_Renamed;
+        private readonly T[] buffer;
         // Ring buffer size.
         private readonly int maxSize;
 
@@ -44,30 +45,47 @@ namespace HoloJson.Core
         private int tailPointer = 0;
         private int headPointer = 0;
 
-        // ????
-        private readonly System.Type thisClassType;
 
-        public TailRingBuffer(System.Type thisClassType) : this(thisClassType, DEF_BUFFER_SIZE)
+        //public TailRingBuffer() : this(DEF_BUFFER_SIZE)
+        //{
+        //}
+        //public TailRingBuffer(int maxSize)
+        //{
+        //    //        if(maxSize < MIN_BUFFER_SIZE) {
+        //    //            this.maxSize = MIN_BUFFER_SIZE;
+        //    //        } else if(maxSize > MAX_BUFFER_SIZE) {
+        //    //            this.maxSize = MAX_BUFFER_SIZE;
+        //    //        } else {
+        //    //            this.maxSize = maxSize;
+        //    //        }
+        //    this.maxSize = maxSize;
+        //    buffer = CreateGenericArray(this.maxSize);
+        //}
+        public TailRingBuffer() : this((uint) (DEF_BUFFER_SIZE - 1))
         {
         }
-        public TailRingBuffer(System.Type thisClassType, int maxSize)
+        public TailRingBuffer(uint capacity, IList<T> c = null)
         {
-            //        if(maxSize < MIN_BUFFER_SIZE) {
-            //            this.maxSize = MIN_BUFFER_SIZE;
-            //        } else if(maxSize > MAX_BUFFER_SIZE) {
-            //            this.maxSize = MAX_BUFFER_SIZE;
-            //        } else {
-            //            this.maxSize = maxSize;
-            //        }
-            this.thisClassType = thisClassType;
-            this.maxSize = maxSize;
-            buffer_Renamed = createGenericArray(this.maxSize);
+            maxSize = (int)(capacity + 1U);
+            buffer = CreateGenericArray(maxSize);
+            if(c != null) {
+                buffer = CopyCollectionToArray(maxSize, c);
+            }
         }
 
         // temporary
-        private T[] createGenericArray(int length)
+        private T[] CreateGenericArray(int length)
         {
-            T[] arr = (T[])Array.CreateInstance(thisClassType, length);
+            T[] arr = (T[])Array.CreateInstance(typeof(T), length);
+            return arr;
+        }
+        private T[] CopyCollectionToArray(int maxSize, IList<T> c)
+        {
+            var len = Math.Min(c.Count, maxSize - 1);
+            T[] arr = (T[])Array.CreateInstance(typeof(T), maxSize);
+            for (var i=0;i<len;i++) {
+                arr[i] = c[i];
+            }
             return arr;
         }
 
@@ -79,9 +97,9 @@ namespace HoloJson.Core
         //    {
         //        incrementTail(1);
         //    }
-        private void incrementTail()
+        private void IncrementTail()
         {
-            bool oldIsFull = Full;
+            bool oldIsFull = IsFull;
             ++tailPointer;
             // if(tailPointer == maxSize) {
             if (tailPointer >= maxSize) {
@@ -96,28 +114,32 @@ namespace HoloJson.Core
             }
         }
         // 0 < delta < maxSize
-        private void incrementTail(int delta)
+        private void IncrementTail(int delta)
         {
-            int oldMargin = margin();
+            var oldMargin = Margin;
             tailPointer += delta;
             if (tailPointer >= maxSize) {
                 tailPointer %= maxSize;
             }
             if (oldMargin < delta) {
-                int push = delta - oldMargin;
+                var push = delta - (int) oldMargin;
                 headPointer += push;
                 if (headPointer >= maxSize) {
                     headPointer %= maxSize;
                 }
             }
         }
+
         // Returns the index of the "last element" (just before the tailPointer).
-        private int lastIndex()
+        private int LastIndex
         {
-            return lastNthIndex(1);
+            get
+            {
+                return LastNthIndex(1);
+            }
         }
         // 0 < n < maxSize
-        private int lastNthIndex(int n)
+        private int LastNthIndex(int n)
         {
             if (tailPointer >= n) {
                 return tailPointer - n;
@@ -127,42 +149,91 @@ namespace HoloJson.Core
             }
         }
 
+        private void IncrementHead()
+        {
+            if (headPointer == tailPointer) {
+                // do nothing
+            } else {
+                ++headPointer;
+                if (headPointer >= maxSize) {
+                    headPointer = 0;
+                }
+            }
+        }
+
+        // Returns the index of the "head".
+        private int FirstIndex
+        {
+            get
+            {
+                return headPointer;
+            }
+        }
+
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            var unfoldedTail = tailPointer;
+            if(tailPointer < headPointer) {
+                unfoldedTail = tailPointer + maxSize;
+            }
+            for(var i=headPointer;i<unfoldedTail;i++) {
+                var foldedIdx = i % maxSize;
+                yield return buffer[foldedIdx];
+            }
+        }
+        // ???
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+
         // Returns the size of the "empty" slots.
         // (Not all empty slots are usable though...)
         // We use one slot as a collision buffering zone.
-        public int margin()
+        public uint Margin
         {
-            // Note the -1.
-            int margin;
-            if (tailPointer < headPointer) {
-                margin = headPointer - tailPointer - 1;
-            } else {
-                margin = maxSize - (tailPointer - headPointer) - 1;
+            get
+            {
+                // Note the -1.
+                uint margin;
+                if (tailPointer < headPointer) {
+                    margin = (uint) (headPointer - tailPointer - 1);
+                } else {
+                    margin = (uint) (maxSize - (tailPointer - headPointer) - 1);
+                }
+                return margin;
             }
-            return margin;
         }
 
         // Because of the one empty slot buffering,
         // the "usable size" is maxSize - 1.
-        public int maxCapacity()
+        public uint MaxCapacity
         {
-            return this.maxSize - 1;
+            get
+            {
+                return (uint) (maxSize - 1);
+            }
         }
 
         // Returns the size of the data.
-        public int size()
+        protected int Size
         {
-            int size;
-            if (tailPointer < headPointer) {
-                size = maxSize + tailPointer - headPointer;
-            } else {
-                size = tailPointer - headPointer;
+            get
+            {
+                int size;
+                if (tailPointer < headPointer) {
+                    size = maxSize + tailPointer - headPointer;
+                } else {
+                    size = tailPointer - headPointer;
+                }
+                return size;
             }
-            return size;
         }
 
         // Returns true if there is no data in the buffer.
-        public bool Empty
+        public bool IsEmpty
         {
             get
             {
@@ -174,7 +245,7 @@ namespace HoloJson.Core
             }
         }
         // Returns true if margin() == 0.
-        public bool Full
+        public bool IsFull
         {
             get
             {
@@ -192,24 +263,54 @@ namespace HoloJson.Core
             }
         }
 
-        // Adds the given object to the ring buffer.
-        // If the buffer is full, then it returns false.
-        public bool push(T ch)
+
+        /// <summary>
+        /// Adds the element at the end/tail of the buffer.
+        /// </summary>
+        /// <param name="ch">Element to be added</param>
+        /// <returns>Returns true if successful.</returns>
+        public bool Offer(T ch)
         {
-            buffer_Renamed[tailPointer] = ch;
-            incrementTail();
+            return Push(ch);
+        }
+        /// <summary>
+        /// Retrieves and removes the head of this queue, or returns null if this queue is empty.
+        /// </summary>
+        /// <returns>Returns the head.</returns>
+        public T Poll()
+        {
+            var ch = Head();
+            IncrementHead();
+            return ch;
+        }
+        /// <summary>
+        /// Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
+        /// </summary>
+        /// <returns></returns>
+        public T Peek()
+        {
+            return Head();
+        }
+
+
+        // Adds the given object to the end of the ring buffer.
+        // If the buffer is full, then it returns false.
+        public bool Push(T ch)
+        {
+            buffer[tailPointer] = ch;
+            IncrementTail();
             return true;
         }
-        public bool push(T[] c)
+        public bool Push(T[] c)
         {
             if (c == null || c.Length == 0) {
                 return false;
             }
-            int len = c.Length;
-            return push(c, len);
+            var len = c.Length;
+            return Push(c, len);
         }
         // Adds the object array c to the buffer, up to length, but no more than the c.size().
-        public bool push(T[] c, int length)
+        public bool Push(T[] c, int length)
         {
             if (c == null || c.Length == 0) {
                 return false;
@@ -219,96 +320,155 @@ namespace HoloJson.Core
                 length = len;
             }
             if (tailPointer + length < maxSize) {
-                Array.Copy(c, 0, buffer_Renamed, tailPointer, length);
+                Array.Copy(c, 0, buffer, tailPointer, length);
             } else {
                 int first = maxSize - tailPointer;
                 int second = length - first;
-                Array.Copy(c, 0, buffer_Renamed, tailPointer, first);
-                Array.Copy(c, first, buffer_Renamed, 0, second);
+                Array.Copy(c, 0, buffer, tailPointer, first);
+                Array.Copy(c, first, buffer, 0, second);
             }
-            incrementTail(length);
+            IncrementTail(length);
             return true;
         }
 
-        // tail() returns the object at the end of the data buffer.
-        public T tail()
+        // Head() returns the object at the start of the data buffer.
+        public T Head()
         {
-            if (Empty) {
+            if (IsEmpty) {
                 return default(T);
             }
-            T ch = buffer_Renamed[lastIndex()];
+            T ch = buffer[FirstIndex];
+            return ch;
+        }
+
+        // Tail() returns the object at the end of the data buffer.
+        public T Tail()
+        {
+            if (IsEmpty) {
+                return default(T);
+            }
+            T ch = buffer[LastIndex];
             return ch;
         }
         // Peeks the objects at the tail part of the buffer.
         // If the buffer contains less than length objects, it returns all objects (same as toArray()).
-        public T[] tail(int length)
+        public T[] Tail(int length)
         {
-            if (Empty) {
+            if (IsEmpty) {
                 return null;
                 // return createGenericArray(0);
             }
-            if (length > size()) {
-                length = size();
+            if (length > Size) {
+                length = Size;
             }
-            T[] tail = createGenericArray(length);
-            int begin = lastNthIndex(length);
+            T[] tail = CreateGenericArray(length);
+            int begin = LastNthIndex(length);
             if (begin + length < maxSize) {
-                Array.Copy(buffer_Renamed, begin, tail, 0, length);
+                Array.Copy(buffer, begin, tail, 0, length);
             } else {
                 int first = maxSize - begin;
                 int second = length - first;
-                Array.Copy(buffer_Renamed, begin, tail, 0, first);
-                Array.Copy(buffer_Renamed, 0, tail, first, second);
+                Array.Copy(buffer, begin, tail, 0, first);
+                Array.Copy(buffer, 0, tail, first, second);
             }
             return tail;
         }
-        public string tailAsString(int length)
+        public string GetTailAsString(int length)
         {
-            T[] c = tail(length);
-            string t = arrayAsString(c);
+            T[] c = Tail(length);
+            string t = ToString(c);
             return t;
         }
 
         // Returns a copy of the entire buffer, as a regular array. Same as toArray().
-        public T[] buffer()
+        public T[] Buffer
         {
-            return toArray();
+            get
+            {
+                return ToArray();
+            }
         }
-        public string bufferAsString()
+        public string GetBufferAsString()
         {
-            T[] c = buffer();
-            string t = arrayAsString(c);
+            T[] c = Buffer;
+            string t = ToString(c);
             return t;
         }
 
         // Returns the copy of the entire data buffer, as a regular array.
-        public T[] toArray()
+        public T[] ToArray()
         {
-            if (Empty) {
+            if (IsEmpty) {
                 return null;
                 // return createGenericArray(0);
             }
-            int length = size();
-            T[] copied = createGenericArray(length);
+            int length = Size;
+            T[] copied = CreateGenericArray(length);
             if (headPointer + length < maxSize) {
-                Array.Copy(buffer_Renamed, headPointer, copied, 0, length);
+                Array.Copy(buffer, headPointer, copied, 0, length);
             } else {
                 int first = maxSize - headPointer;
                 int second = length - first;
-                Array.Copy(buffer_Renamed, headPointer, copied, 0, first);
-                Array.Copy(buffer_Renamed, 0, copied, first, second);
+                Array.Copy(buffer, headPointer, copied, 0, first);
+                Array.Copy(buffer, 0, copied, first, second);
             }
             return copied;
         }
 
         // Removes the data from the buffer.
-        public void clear()
+        public void Clear()
         {
             //        headPointer = tailPointer;
             headPointer = tailPointer = 0;
         }
+        // ???
+        public virtual void Reset()
+        {
+            Clear();
+        }
 
-        private string arrayAsString(T[] arr)
+
+        // For debugging/tracing
+        public virtual string ToTraceString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("[");
+            var isFirst = true;
+            var it = GetEnumerator();
+            while (it.MoveNext()) {
+                if (isFirst) {
+                    isFirst = false;
+                } else {
+                    sb.Append(",");
+                }
+                var element = it.Current;
+                sb.Append(element.ToString());
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
+        public virtual string ToTraceString(int length)
+        {
+            var sb = new StringBuilder();
+            sb.Append("[");
+            var isFirst = true;
+            var count = 0;
+            var it = GetEnumerator();
+            while (count < length && it.MoveNext()) {
+                if(isFirst) {
+                    isFirst = false;
+                } else {
+                    sb.Append(",");
+                }
+                var element = it.Current;
+                sb.Append(element.ToString());
+                ++count;
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
+
+        private static string ToString(T[] arr)
         {
             if (arr == null) {
                 return null;
@@ -329,9 +489,7 @@ namespace HoloJson.Core
         // For debugging...
         public override string ToString()
         {
-            // tbd:
-            // return "TailRingBuffer [buffer=" + Arrays.ToString(tail(100)) + ", maxSize=" + maxSize + ", tailPointer=" + tailPointer + ", headPointer=" + headPointer + "]";
-            return "TailRingBuffer [buffer=" + "..." + ", maxSize=" + maxSize + ", tailPointer=" + tailPointer + ", headPointer=" + headPointer + "]";
+            return $"TailRingBuffer [maxSize={maxSize}, tailPointer={tailPointer}, headPointer={headPointer}, buffer={ToTraceString(100)}]";
         }
 
     }
