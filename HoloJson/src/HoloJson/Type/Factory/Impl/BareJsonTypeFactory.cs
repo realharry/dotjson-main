@@ -20,7 +20,9 @@ namespace HoloJson.Type.Factory.Impl
 
         public object CreateBoolean(bool? value)
         {
-            return value == null ? JsonNull.NULL : value.Value;
+            // ???
+            // return value == null ? JsonNull.NULL : value.Value;
+            return value == null ? null : (bool?) value.Value;
         }
 
         public object CreateNull()
@@ -30,7 +32,9 @@ namespace HoloJson.Type.Factory.Impl
 
         public object CreateNumber(Number? value)
         {
-            return value == null ? JsonNull.NULL : value.Value;
+            // ???
+            // return value == null ? JsonNull.NULL : value.Value;
+            return value == null ? null : (Number?) value.Value;
         }
 
         public IDictionary<string, object> CreateObject(IDictionary<string, object> map)

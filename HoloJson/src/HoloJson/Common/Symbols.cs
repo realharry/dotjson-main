@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace HoloJson.Common
 {
+    // tbd: is this enum necessary?
+    // Just use char?
     public enum CharSymbol
     {
     	// Chars that have special meanings to the tokenizer...
@@ -28,7 +30,7 @@ namespace HoloJson.Common
 		RETURN = 'r',
 		TAB = 't',
 		// ...
-		PLUS = '+',    // Or, dash.
+		PLUS = '+', 
 		MINUS = '-',    // Or, dash.
 		PERIOD = '.',   // Or, dot, decimal point.
 		EXP_LOWER = 'e',    // for numbers.
@@ -69,43 +71,41 @@ namespace HoloJson.Common
 		private Symbols() {}
 
         //// Chars that have special meanings to the tokenizer...
-        //public const char COMMA = ',';
-        //public const char COLON = ':';
-        //public const char LSQUARE = '[';
-        //public const char RSQUARE = ']';
-        //public const char LCURLY = '{';
-        //public const char RCURLY = '}';
-        //// ...
-        //public const char DQUOTE = '"';
-        //// ...
-        //public const char BACKSLASH = '\\';
-        //// ...
-        //public const char SLASH = '/';
-        //public const char BACKSPACE = 'b';
-        //public const char FORMFEED = 'f';
-        //public const char NEWLINE = 'n';
-        //public const char RETURN = 'r';
-        //public const char TAB = 't';
-        //// ...
-        //public const char PLUS = '+';    // Or, dash.
-        //public const char MINUS = '-';    // Or, dash.
-        //public const char PERIOD = '.';   // Or, dot, decimal point.
-        //public const char EXP_LOWER = 'e';    // for numbers.
-        //public const char EXP_UPPER = 'E';    // for numbers.
-        //// ...
-        //public const char ESCAPED_DQUOTE = '\"';
-        //public const char ESCAPED_BACKSLASH = '\\';
-        //// public const char ESCAPED_SLASH = '/';
-        //public const char ESCAPED_BACKSPACE = '\b';
-        //public const char ESCAPED_FORMFEED = '\f';
-        //public const char ESCAPED_NEWLINE = '\n';
-        //public const char ESCAPED_RETURN = '\r';
-        //public const char ESCAPED_TAB = '\t';
-        //// ...
+        public const char COMMA = (char) CharSymbol.COMMA;
+        public const char COLON = (char)CharSymbol.COLON;
+        public const char LSQUARE = (char)CharSymbol.LSQUARE;
+        public const char RSQUARE = (char)CharSymbol.RSQUARE;
+        public const char LCURLY = (char)CharSymbol.LCURLY;
+        public const char RCURLY = (char)CharSymbol.RCURLY;
+        // ...
+        public const char DQUOTE = (char)CharSymbol.DQUOTE;
+        // ...
+        public const char BACKSLASH = (char)CharSymbol.BACKSLASH;
+        // ...
+        public const char SLASH = (char)CharSymbol.SLASH;
+        public const char BACKSPACE = (char)CharSymbol.BACKSPACE;
+        public const char FORMFEED = (char)CharSymbol.FORMFEED;
+        public const char NEWLINE = (char)CharSymbol.NEWLINE;
+        public const char RETURN = (char)CharSymbol.RETURN;
+        public const char TAB = (char)CharSymbol.TAB;
+        // ...
+        public const char PLUS = (char)CharSymbol.PLUS;
+        public const char MINUS = (char)CharSymbol.MINUS;    // Or, dash.
+        public const char PERIOD = (char)CharSymbol.PERIOD;   // Or, dot, decimal point.
+        public const char EXP_LOWER = (char)CharSymbol.EXP_LOWER;    // for numbers.
+        public const char EXP_UPPER = (char)CharSymbol.EXP_UPPER;    // for numbers.
+        // ...
+        public const char ESCAPED_DQUOTE = (char)CharSymbol.ESCAPED_DQUOTE;
+        public const char ESCAPED_BACKSLASH = (char)CharSymbol.ESCAPED_BACKSLASH;
+        // public const char ESCAPED_SLASH = '/';
+        public const char ESCAPED_BACKSPACE = (char)CharSymbol.ESCAPED_BACKSPACE;
+        public const char ESCAPED_FORMFEED = (char)CharSymbol.ESCAPED_FORMFEED;
+        public const char ESCAPED_NEWLINE = (char)CharSymbol.ESCAPED_NEWLINE;
+        public const char ESCAPED_RETURN = (char)CharSymbol.ESCAPED_RETURN;
+        public const char ESCAPED_TAB = (char)CharSymbol.ESCAPED_TAB;
+        // ...
 
-        
-        
-        
+
         public const string ESCAPED_DQUOTE_STR = "\\\"";
 		public const string ESCAPED_BACKSLASH_STR = "\\\\";
 		// Note that forward slash need not be escaped in Java.
@@ -117,25 +117,24 @@ namespace HoloJson.Common
 		public const string ESCAPED_NEWLINE_STR = "\\n";
 		public const string ESCAPED_RETURN_STR = "\\r";
 		public const string ESCAPED_TAB_STR = "\\t";
-		// ...
+        // ...
 
-        //// ...
-        //public const char NULL_START = 'n';
-        //public const char TRUE_START = 't';
-        //public const char FALSE_START = 'f';
-        //// these are used only when parserPolicy.caseInsensitiveLiterals == true...
-        //public const char NULL_START_UPPER = 'N';
-        //public const char TRUE_START_UPPER = 'T';
-        //public const char FALSE_START_UPPER = 'F';
+        // ...
+        public const char NULL_START = 'n';
+        public const char TRUE_START = 't';
+        public const char FALSE_START = 'f';
+        // these are used only when parserPolicy.caseInsensitiveLiterals == true...
+        public const char NULL_START_UPPER = 'N';
+        public const char TRUE_START_UPPER = 'T';
+        public const char FALSE_START_UPPER = 'F';
 
-        //// ...
-        //public const char UNICODE_PREFIX = 'u';
-		// ...
-		// ...
-		// number?
-		// ...
+        public const char UNICODE_PREFIX = (char)CharSymbol.UNICODE_PREFIX;
+        // ...
 
-		// For easy access
+        // number?
+        // ...
+
+        // For easy access
         private static readonly ISet<CharSymbol> symbolSet;
         private static readonly ISet<CharSymbol> escapables;
         private static readonly ISet<CharSymbol> escaped;

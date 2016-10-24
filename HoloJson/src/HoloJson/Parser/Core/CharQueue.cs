@@ -422,7 +422,7 @@ namespace HoloJson.Parser.Core
 		// For debugging...
 		public override string ToString()
 		{
-			return "CharQueue [buffer=" + String.Join<char>(",", Peek(100)) + ", maxSize="
+			return "CharQueue [buffer=" + string.Join<char>(",", Peek(100)) + ", maxSize="
 					+ maxSize + ", tailPointer=" + tailPointer + ", headPointer="
 					+ headPointer + "]";
 		}

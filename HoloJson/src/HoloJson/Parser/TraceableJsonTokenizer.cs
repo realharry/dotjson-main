@@ -39,8 +39,8 @@ namespace HoloJson.Parser
 
         /// <param name="length"> Max length of the String/char[] to be peeked. </param>
         /// <returns> the character array in the stream as a string. </returns>
-        string GetPeekCharsAsString(int length);
-        char[] GetPeekCharStream(int length);
+        string PeekCharsAsString(int length);
+        char[] PeekCharStream(int length);
 
     }
 

@@ -11,7 +11,7 @@ namespace HoloJson.Common
     {
         EOF = -1,    // Not exactly a token.
         INVALID = 0,   // Not a valid token.  null.
-		NULL = 1,      // JSON "null".
+		NULL = 1,      // JSON "null". Valid token.
 		// TRUE = 2,
 		// FALSE = 3,
 		COMMA = 4,

@@ -320,7 +320,7 @@ namespace HoloJson.Lite.Parser
 		private JsonToken PeekAndGetToken(Lite.LiteJsonTokenizer tokenizer)
 		{
 			JsonToken s = tokenizer.Peek();
-			if(JsonToken.IsInvalid(s)) {
+			if(JsonToken.IsTokenInvalid(s)) {
 				throw new HoloJsonMiniException("Failed to get the next json token. ");
 			}
 			return s;
@@ -329,7 +329,7 @@ namespace HoloJson.Lite.Parser
 		private TokenType PeekAndGetType(Lite.LiteJsonTokenizer tokenizer)
 		{
 			JsonToken s = tokenizer.Peek();
-            if (JsonToken.IsInvalid(s)) {
+            if (JsonToken.IsTokenInvalid(s)) {
 				throw new HoloJsonMiniException("Failed to get the next json token. ");
 			}
             var type = s.Type;
@@ -338,7 +338,7 @@ namespace HoloJson.Lite.Parser
 		private JsonToken NextAndGetToken(Lite.LiteJsonTokenizer tokenizer)
 		{
 			JsonToken s = tokenizer.Next();
-            if (JsonToken.IsInvalid(s)) {
+            if (JsonToken.IsTokenInvalid(s)) {
 				throw new HoloJsonMiniException("Failed to get the next json token. ");
 			}
 			return s;
@@ -347,7 +347,7 @@ namespace HoloJson.Lite.Parser
         private TokenType NextAndGetType(Lite.LiteJsonTokenizer tokenizer)
         {
 			JsonToken s = tokenizer.Next();
-			if(JsonToken.IsInvalid(s)) {
+			if(JsonToken.IsTokenInvalid(s)) {
 				throw new HoloJsonMiniException("Failed to get the next json token. ");
 			}
 			var type = s.Type;

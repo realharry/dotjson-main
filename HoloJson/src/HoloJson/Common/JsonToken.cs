@@ -10,8 +10,9 @@ namespace HoloJson.Common
 	// JsonToken is immutable.
 	public struct JsonToken
 	{
-        // Just use TokenPool.TOKEN_NULL.
+        // Just use TokenPool.TOKEN_NULL?
         public static readonly JsonToken INVALID = new JsonToken(TokenType.INVALID, null);  // ???
+        // public static readonly JsonToken NULL = new JsonToken(TokenType.NULL, null);  // Json NULL?
 
         // private readonly int type;
         private readonly TokenType type;
@@ -41,8 +42,28 @@ namespace HoloJson.Common
             }
 		}
 
+        // Note IsValid != !IsInvalid.
+        public bool IsValid
+        {
+            get
+            {
+                // return TokenTypes.IsValid(type);
+                // return !IsInvalid;    // What about EOF ????
+                return (type != TokenType.INVALID && type != TokenType.EOF);
+            }
+        }
+        public bool IsInvalid
+        {
+            get
+            {
+                // return ! TokenTypes.IsValid(type);
+                return (type == TokenType.INVALID);  // What about EOF ????
+                // return (type == TokenType.INVALID || type == TokenType.EOF);
+            }
+        }
+
         // Note: IsValid() != (! IsInvalid()).
-        public static bool IsValid(JsonToken token)
+        public static bool IsTokenValid(JsonToken token)
         {
             //if (token.Type == TokenType.INVALID) {
             //    return false;
@@ -51,7 +72,7 @@ namespace HoloJson.Common
             //}
             return TokenTypes.IsValid(token.Type);
         }
-        public static bool IsInvalid(JsonToken token)
+        public static bool IsTokenInvalid(JsonToken token)
         {
             return (token.Type == TokenType.INVALID);
         }
@@ -100,5 +121,25 @@ namespace HoloJson.Common
 		}
 
 
-	}
+        public static bool operator ==(JsonToken lhs, JsonToken rhs)
+        {
+            // return lhs.Equals(rhs);
+            if (lhs.Type != rhs.Type)
+                return false;
+            if (lhs.Value == null) {
+                if (rhs.value != null)
+                    return false;
+            } else if (!lhs.Value.Equals(rhs.Value)) {
+                return false;
+            }
+            return true;
+        }
+        public static bool operator !=(JsonToken lhs, JsonToken rhs)
+        {
+            // return !lhs.Equals(rhs);
+            return ! (lhs == rhs);
+        }
+
+
+    }
 }

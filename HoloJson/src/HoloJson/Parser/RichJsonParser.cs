@@ -13,8 +13,8 @@ namespace HoloJson.Parser
     /// </summary>
     public interface RichJsonParser : JsonParser
     {
-        JsonNode parseJson(string jsonStr);
-        JsonNode parseJson(TextReader reader);
+        Task<JsonNode> ParseJsonAsync(string jsonStr);
+        Task<JsonNode> ParseJsonAsync(TextReader reader);
         // JsonObject parseObject();
         // JsonArray parseArray();
     }

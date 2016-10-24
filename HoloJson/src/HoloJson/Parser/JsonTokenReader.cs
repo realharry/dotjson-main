@@ -9,7 +9,7 @@ namespace HoloJson.Parser
     /// Wrapper/Decorator of java.io.TextReader.
     /// (Place holder)
     /// </summary>
-    public interface JsonTokenTextReader
+    public interface JsonTokenReader
     {
         // TBD:
         // ...

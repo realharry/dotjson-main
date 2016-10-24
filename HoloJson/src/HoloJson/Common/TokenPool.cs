@@ -64,7 +64,7 @@ namespace HoloJson.Common
 		}
 
         // Singleton.
-        public static readonly TokenPool INSTANCE = new TokenPool();
+        public static readonly TokenPool Instance = new TokenPool();
         //public static TokenPool getInstance()
         //{
         //    return INSTANCE;
@@ -145,7 +145,7 @@ namespace HoloJson.Common
 		public JsonToken GetToken(TokenType type, object value)
 		{
 			JsonToken token = GetStockToken(type, value);
-            if (JsonToken.IsValid(token)) {
+            if (JsonToken.IsTokenValid(token)) {
 				return token;
 			}
 			if(! TokenTypes.IsValid(type)) {

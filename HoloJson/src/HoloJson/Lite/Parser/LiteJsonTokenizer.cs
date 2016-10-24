@@ -149,11 +149,11 @@ namespace HoloJson.Lite.Parser
 		/// @Override
 		public bool HasMore()
 		{
-			if(JsonToken.IsInvalid(nextToken)) {
+			if(JsonToken.IsTokenInvalid(nextToken)) {
 				nextToken = PrepareNextToken();
 			}
 
-            if (JsonToken.IsInvalid(nextToken) || TokenPool.TOKEN_EOF.Equals(nextToken)) {
+            if (JsonToken.IsTokenInvalid(nextToken) || TokenPool.TOKEN_EOF.Equals(nextToken)) {
 				return false;
 			} else {
 				return true;
@@ -163,7 +163,7 @@ namespace HoloJson.Lite.Parser
 		/// @Override
 		public JsonToken Next()
 		{
-			if(JsonToken.IsInvalid(nextToken)) {
+			if(JsonToken.IsTokenInvalid(nextToken)) {
 				nextToken = PrepareNextToken();
 			}
 			curToken = nextToken;
@@ -175,7 +175,7 @@ namespace HoloJson.Lite.Parser
 		/// @Override
 		public JsonToken Peek()
 		{
-			if(JsonToken.IsValid(nextToken)) {
+			if(JsonToken.IsTokenValid(nextToken)) {
 				return nextToken;
 			}
 			
@@ -190,7 +190,7 @@ namespace HoloJson.Lite.Parser
 		// and return the next token (without removing it).
 		public JsonToken NextAndPeek()
 		{
-			if(JsonToken.IsInvalid(nextToken)) {
+			if(JsonToken.IsTokenInvalid(nextToken)) {
 				curToken = PrepareNextToken();
 			} else {
 				curToken = nextToken;
@@ -205,7 +205,7 @@ namespace HoloJson.Lite.Parser
 		// This should be called by a certain select methods only!!!
 		private JsonToken PrepareNextToken()
 		{
-			if(JsonToken.IsValid(nextToken)) {
+			if(JsonToken.IsTokenValid(nextToken)) {
 				// ???
 				return nextToken;
 			}
@@ -402,7 +402,7 @@ namespace HoloJson.Lite.Parser
 			//     See the comment below. We try at least once with ReadString() version...
 			value = ReadStringWithLookAhead();
 			// ....
-			token = TokenPool.INSTANCE.GetToken(TokenType.STRING, value);
+			token = TokenPool.Instance.GetToken(TokenType.STRING, value);
 			// nextToken = null;
 			return token;
 		}
@@ -665,7 +665,7 @@ namespace HoloJson.Lite.Parser
 		{
             JsonToken token = JsonToken.INVALID;
 			var value = ReadNumber();
-			token = TokenPool.INSTANCE.GetToken(TokenType.NUMBER, value);
+			token = TokenPool.Instance.GetToken(TokenType.NUMBER, value);
 			// nextToken = null;
 			return token;
 		}
