@@ -111,12 +111,15 @@ namespace HoloJson.Common
 		// Note that forward slash need not be escaped in Java.
 		// The following is used to generate "\/" in a json string.
 		public const string ESCAPED_SLASH_STR = "\\/";
-		public const string SLASH_STR = "/";
 		public const string ESCAPED_BACKSPACE_STR = "\\b";
 		public const string ESCAPED_FORMFEED_STR = "\\f";
 		public const string ESCAPED_NEWLINE_STR = "\\n";
 		public const string ESCAPED_RETURN_STR = "\\r";
 		public const string ESCAPED_TAB_STR = "\\t";
+        // ...
+        public const string SLASH_STR = "/";
+        public const string LCURLY_STR = "{";
+        public const string LSQUARE_STR = "[";
         // ...
 
         // ...

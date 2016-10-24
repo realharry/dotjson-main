@@ -22,10 +22,10 @@ namespace HoloJson.Builder.Partial
         // String buildMixedAsync(Object jsonObj, int minDepth) throws JsonBuilderException;
         Task<string> BuildMixedAsync(object jsonObj, int minDepth, int maxDepth);
         Task<string> BuildMixedAsync(object jsonObj, int minDepth, int maxDepth, int indent);
-        Task buildMixedAsync(TextWriter writer, object jsonObj);
+        Task BuildMixedAsync(TextWriter writer, object jsonObj);
         // void buildMixedAsync(Writer writer, Object jsonObj, int minDepth) throws JsonBuilderException, IOException;
-        Task buildMixedAsync(TextWriter writer, object jsonObj, int minDepth, int maxDepth);
-        Task buildMixedAsync(TextWriter writer, object jsonObj, int minDepth, int maxDepth, int indent);
+        Task BuildMixedAsync(TextWriter writer, object jsonObj, int minDepth, int maxDepth);
+        Task BuildMixedAsync(TextWriter writer, object jsonObj, int minDepth, int maxDepth, int indent);
 
     }
 
