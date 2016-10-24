@@ -16,13 +16,13 @@ namespace HoloJson.Type.Base
         // public abstract object GetValue();
         public abstract object Value { get; set; }
 
-        public abstract string ToJsonString();
+        public abstract Task<string> ToJsonStringAsync();
 
-        public abstract string ToJsonString(int indent);
+        public abstract Task<string> ToJsonStringAsync(int indent);
 
-        public abstract void WriteJsonString(TextWriter writer);
+        public abstract Task WriteJsonStringAsync(TextWriter writer);
 
-        public abstract void WriteJsonString(TextWriter writer, int indent);
+        public abstract Task WriteJsonStringAsync(TextWriter writer, int indent);
 
     }
 }

@@ -28,7 +28,7 @@ namespace HoloJson.Trait
         ///    especially when an object implements both JsonSerializable and JsonCompatible.
         /// </summary>
         /// <returns>A "JSON structure" of this object. </returns>
-        object ToJsonStructure();
+        Task<object> ToJsonStructureAsync();
 
         /// <summary>
         /// Traverses down to the depth level (in terms of Object, Map, List).
@@ -49,7 +49,7 @@ namespace HoloJson.Trait
         /// </summary>
         /// <param name="depth"Traversal depth></param>
         /// <returns>A "JSON structure" of this object. </returns>
-        object ToJsonStructure(int depth);
+        Task<object> ToJsonStructureAsync(int depth);
 
     }
 }

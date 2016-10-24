@@ -17,12 +17,12 @@ namespace HoloJson.Trait
         /// Creates a JSON string from this object.
         /// </summary>
         /// <returns>JSON string.</returns>
-        string ToJsonString();
+        Task<string> ToJsonStringAsync();
 
         /// <summary>
         /// Writes a JSON string representation of this object to the writer.
         /// </summary>
         /// <param name="writer">Target writer.</param>
-        void WriteJsonString(TextWriter writer);
+        Task WriteJsonStringAsync(TextWriter writer);
     }
 }

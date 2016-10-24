@@ -569,7 +569,7 @@ namespace HoloJson.Builder.Impl
                         // ????
                         object jObj = null;
                         try {
-                            jObj = ((JsonCompatible)obj).ToJsonStructure();
+                            jObj = await ((JsonCompatible)obj).ToJsonStructureAsync();
                             // Use this.ToJsonStructure(jObj) ???
                             // ...
                         } catch (JsonBuilderException e) {
@@ -699,9 +699,9 @@ namespace HoloJson.Builder.Impl
                     if (obj is JsonSerializable) {
                         string jSerial = null;
                         if (obj is IndentedJsonSerializable) {
-                            jSerial = ((IndentedJsonSerializable)obj).ToJsonString(indentSize);
+                            jSerial = await ((IndentedJsonSerializable)obj).ToJsonStringAsync(indentSize);
                         } else {
-                            jSerial = ((JsonSerializable)obj).ToJsonString();
+                            jSerial = await ((JsonSerializable)obj).ToJsonStringAsync();
                         }
                         writer.Write(jSerial);
                     } else {
@@ -944,7 +944,7 @@ namespace HoloJson.Builder.Impl
                             try {
                                 // which one to use???
                                 // jObj = ((JsonCompatible) obj).ToJsonStructure();        // Use "default" depth of the object???
-                                jObj = ((JsonCompatible)obj).ToJsonStructure(depth - 1); // ???
+                                jObj = await ((JsonCompatible)obj).ToJsonStructureAsync(depth - 1); // ???
                                                                                          // Use this.ToJsonStructure(jObj) ???
                                                                                          // ...
                             } catch (JsonBuilderException e) {

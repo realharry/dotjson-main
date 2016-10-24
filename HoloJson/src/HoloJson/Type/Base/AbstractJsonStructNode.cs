@@ -20,16 +20,16 @@ namespace HoloJson.Type.Base
         }
 
 
-        public override string ToJsonString()
+        public override async Task<string> ToJsonStringAsync()
         {
-            return ToJsonString(DEFAULT_INDENT);
+            return await ToJsonStringAsync(DEFAULT_INDENT);
         }
 
-        public override string ToJsonString(int indent)
+        public override async Task<string> ToJsonStringAsync(int indent)
         {
             StringWriter writer = new StringWriter();
             try {
-                WriteJsonString(writer, indent);
+                await WriteJsonStringAsync(writer, indent);
             } catch (IOException e) {
                 // What to do???
                 // log.log(Level.WARNING, "Failed to write to StringWriter.", e);
@@ -39,20 +39,20 @@ namespace HoloJson.Type.Base
             return str;
         }
 
-        public override void WriteJsonString(TextWriter writer)
+        public override async Task WriteJsonStringAsync(TextWriter writer)
         {
-            WriteJsonString(writer, DEFAULT_INDENT);
+            await WriteJsonStringAsync(writer, DEFAULT_INDENT);
         }
 
-        public abstract override void WriteJsonString(TextWriter writer, int indent);
+        public abstract override Task WriteJsonStringAsync(TextWriter writer, int indent);
 
 
-        public object ToJsonStructure()
+        public async Task<object> ToJsonStructureAsync()
         {
-            return ToJsonStructure(DRILL_DOWN_DEPTH);
+            return await ToJsonStructureAsync(DRILL_DOWN_DEPTH);
         }
 
-        public abstract object ToJsonStructure(int depth);
+        public abstract Task<object> ToJsonStructureAsync(int depth);
 
     }
 }

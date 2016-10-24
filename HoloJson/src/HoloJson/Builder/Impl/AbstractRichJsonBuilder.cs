@@ -131,7 +131,7 @@ namespace HoloJson.Builder.Impl
             } else {
                 // ???
                 if (node is IndentedJsonSerializable) {
-                    jsonStr = ((IndentedJsonSerializable)node).ToJsonString();
+                    jsonStr = await ((IndentedJsonSerializable)node).ToJsonStringAsync();
                 } else {
                     // ????
                     jsonStr = node.ToString();
@@ -142,7 +142,7 @@ namespace HoloJson.Builder.Impl
 
         private async Task<string> _buildAsync(JsonNode node)
         {
-            string jStr = node.ToJsonString();
+            string jStr = await node.ToJsonStringAsync();
             return jStr;
         }
 

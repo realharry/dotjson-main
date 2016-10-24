@@ -20,7 +20,7 @@ namespace HoloJson.Trait
         /// </summary>
         /// <param name="indent">Indent level for "pretty printing".</param>
         /// <returns>Returns the JSON string.</returns>
-        string ToJsonString(int indent);
+        Task<string> ToJsonStringAsync(int indent);
 
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace HoloJson.Trait
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="indent"></param>
-        void WriteJsonString(TextWriter writer, int indent);
+        Task WriteJsonStringAsync(TextWriter writer, int indent);
 
         // String toJsonString(JsonCompatible jsonObj);
         // String toJsonString(Object obj);

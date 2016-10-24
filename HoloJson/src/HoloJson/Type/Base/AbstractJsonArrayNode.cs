@@ -87,7 +87,7 @@ namespace HoloJson.Type.Base
         // JsonSerializable interface
         // Note: The default depth of AbstractJsonNodes is always 1.   
 
-        public override void WriteJsonString(TextWriter writer, int indent)
+        public override async Task WriteJsonStringAsync(TextWriter writer, int indent)
         {
             if (list == null) {
                 writer.Write(Literals.NULL);
@@ -139,7 +139,7 @@ namespace HoloJson.Type.Base
                     }
                 }
                 JsonNode node = it.Current as JsonNode;
-                writer.Write(node.ToJsonString());
+                writer.Write(await node.ToJsonStringAsync());
             }
             writer.Write(LB);
             writer.Write(IND);
@@ -156,7 +156,7 @@ namespace HoloJson.Type.Base
             return true;
         }
 
-        public override object ToJsonStructure(int depth)
+        public override async Task<object> ToJsonStructureAsync(int depth)
         {
             // ????
             // return list; 

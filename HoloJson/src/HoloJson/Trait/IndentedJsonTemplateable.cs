@@ -8,6 +8,6 @@ namespace HoloJson.Trait
     // place holder.
     public interface IndentedJsonTemplateable : JsonTemplateable
     {
-        string GetJsonTemplate(int indent);
+        Task<string> GetJsonTemplateAsync(int indent);
     }
 }

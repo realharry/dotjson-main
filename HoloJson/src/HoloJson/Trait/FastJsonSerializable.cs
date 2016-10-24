@@ -9,6 +9,6 @@ namespace HoloJson.Trait
     public interface FastJsonSerializable : JsonSerializable, JsonTemplateable
     {
         // string BuildJsonUsingTemplate(params object[] args);
-        string BuildJsonUsingTemplate(params string[] args);
+        Task<string> BuildJsonUsingTemplateAsync(params string[] args);
     }
 }

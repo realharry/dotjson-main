@@ -16,16 +16,16 @@ namespace HoloJson.Type.Base
         {
         }
 
-        public override string ToJsonString()
+        public override async Task<string> ToJsonStringAsync()
         {
-            return ToJsonString(DEFAULT_INDENT);
+            return await ToJsonStringAsync(DEFAULT_INDENT);
         }
 
         // public abstract override string ToJsonString(int indent);
 
-        public override void WriteJsonString(TextWriter writer)
+        public override async Task WriteJsonStringAsync(TextWriter writer)
         {
-            WriteJsonString(writer, DEFAULT_INDENT);
+            await WriteJsonStringAsync(writer, DEFAULT_INDENT);
         }
 
         // public abstract override void WriteJsonString(TextWriter writer, int indent);

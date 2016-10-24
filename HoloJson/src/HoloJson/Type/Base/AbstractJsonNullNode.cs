@@ -40,15 +40,15 @@ namespace HoloJson.Type.Base
         ///////////////////////////////////
         // JsonSerializable interface
 
-        public override string ToJsonString(int indent)
+        public override async Task<string> ToJsonStringAsync(int indent)
         {
             return Literals.NULL;
         }
 
         // ???
-        public override void WriteJsonString(TextWriter writer, int indent)
+        public override async Task WriteJsonStringAsync(TextWriter writer, int indent)
         {
-            throw new NotImplementedException();
+            writer.Write(Literals.NULL);
         }
 
         // For debugging.
