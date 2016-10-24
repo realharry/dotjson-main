@@ -28,21 +28,33 @@ namespace HoloJson.Builder.Core
             indentSize = getIndentSize(indent);
         }
 
-        public bool IsIncludingWhiteSpaces()
+        public bool IsIncludingWhiteSpaces
         {
-            return includingWhiteSpaces;
+            get
+            {
+                return includingWhiteSpaces;
+            }
         }
-        public bool IsIncludingLineBreaks()
+        public bool IsIncludingLineBreaks
         {
-            return includingLineBreaks;
+            get
+            {
+                return includingLineBreaks;
+            }
         }
-        public bool IsLineBreakingAfterComma()
+        public bool IsLineBreakingAfterComma
         {
-            return lineBreakingAfterComma;
+            get
+            {
+                return lineBreakingAfterComma;
+            }
         }
-        public int GetIndentSize()
+        public int IndentSize
         {
-            return indentSize;
+            get
+            {
+                return indentSize;
+            }
         }
 
 

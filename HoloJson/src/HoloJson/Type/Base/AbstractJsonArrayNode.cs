@@ -95,10 +95,10 @@ namespace HoloJson.Type.Base
             }
 
             IndentInfoStruct indentInfo = new IndentInfoStruct(indent);
-            bool includeWS = indentInfo.IsIncludingWhiteSpaces();
-            bool includeLB = indentInfo.IsIncludingLineBreaks();
-            bool lbAfterComma = indentInfo.IsLineBreakingAfterComma();
-            int indentSize = indentInfo.GetIndentSize();
+            bool includeWS = indentInfo.IsIncludingWhiteSpaces;
+            bool includeLB = indentInfo.IsIncludingLineBreaks;
+            bool lbAfterComma = indentInfo.IsLineBreakingAfterComma;
+            int indentSize = indentInfo.IndentSize;
 
             // ???
             // We need a way to set the "global indent level" ....
