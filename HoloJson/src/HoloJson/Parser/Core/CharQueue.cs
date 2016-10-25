@@ -134,11 +134,11 @@ namespace HoloJson.Parser.Core
 
 		// Because of the one empty slot buffering,
 		// the "usable size" is maxSize - 1.
-		public int MaxCapacity
+		public uint Capacity
 		{
             get
             {
-                return this.maxSize - 1;
+                return (uint) (maxSize - 1);
             }
 		}
 

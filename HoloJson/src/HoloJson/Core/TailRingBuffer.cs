@@ -41,7 +41,9 @@ namespace HoloJson.Core
         //   then the data is contained in the range from h (inclusive) to t (exclusive).
         // If a new data is added at the tail, the head part can be erased.
         // A more typical example: [0---t*h-------], where * is the one slot that is not being used.
-        // When t is incremented, h will be incremented by the same amount.
+        // When t is incremented, h will be incremented by the same amount. (the client should check this situation before inserting any more elements.)
+        // Note that we cannot represent the "full full" state (there are maxSize elements in the queue) using these two pointers because of the ciruclar nature.
+        // The maximum number of elements we can put into this queue is maxSize - 1 == capacity.
         private int tailPointer = 0;
         private int headPointer = 0;
 
@@ -209,7 +211,7 @@ namespace HoloJson.Core
 
         // Because of the one empty slot buffering,
         // the "usable size" is maxSize - 1.
-        public uint MaxCapacity
+        public uint Capacity
         {
             get
             {
@@ -245,20 +247,15 @@ namespace HoloJson.Core
             }
         }
         // Returns true if margin() == 0.
+        // that is, if there are (maxSize - 1) elements in the buffer.
         public bool IsFull
         {
             get
             {
-                switch (headPointer) {
-                    case 0:
-                        // return (tailPointer == maxSize - 2);
-                        return (tailPointer >= maxSize - 2);
-                    case 1:
-                        // return (tailPointer == maxSize - 1);
-                        return (tailPointer >= maxSize - 1);
-                    default:
-                        // return (headPointer - tailPointer == 2);
-                        return (headPointer - tailPointer <= 2);
+                if(headPointer <= tailPointer) {
+                    return (tailPointer - headPointer >= maxSize - 1);
+                } else {
+                    return (headPointer - tailPointer <= 1);
                 }
             }
         }
@@ -376,7 +373,7 @@ namespace HoloJson.Core
         public string GetTailAsString(int length)
         {
             T[] c = Tail(length);
-            string t = ToString(c);
+            string t = Arrays.ToString(c);
             return t;
         }
 
@@ -391,7 +388,7 @@ namespace HoloJson.Core
         public string GetBufferAsString()
         {
             T[] c = Buffer;
-            string t = ToString(c);
+            string t = Arrays.ToString(c);
             return t;
         }
 
@@ -418,7 +415,7 @@ namespace HoloJson.Core
         // Removes the data from the buffer.
         public void Clear()
         {
-            //        headPointer = tailPointer;
+            // headPointer = tailPointer;
             headPointer = tailPointer = 0;
         }
         // ???
@@ -468,28 +465,29 @@ namespace HoloJson.Core
             return sb.ToString();
         }
 
-        private static string ToString(T[] arr)
-        {
-            if (arr == null) {
-                return null;
-            }
-            if (arr.Length == 0) {
-                return "";
-            }
-            StringBuilder sb = new StringBuilder();
-            string comma = "";
-            foreach (T a in arr) {
-                sb.Append(comma).Append(a.ToString());
-                comma = ",";
-            }
+        //private static string ToString(T[] arr)
+        //{
+        //    if (arr == null) {
+        //        return null;
+        //    }
+        //    if (arr.Length == 0) {
+        //        return "";
+        //    }
+        //    StringBuilder sb = new StringBuilder();
+        //    string comma = "";
+        //    foreach (T a in arr) {
+        //        sb.Append(comma).Append(a.ToString());
+        //        comma = ",";
+        //    }
 
-            return sb.ToString();
-        }
+        //    return sb.ToString();
+        //}
 
         // For debugging...
         public override string ToString()
         {
-            return $"TailRingBuffer [maxSize={maxSize}, tailPointer={tailPointer}, headPointer={headPointer}, buffer={ToTraceString(100)}]";
+            // return $"TailRingBuffer [maxSize={maxSize}, headPointer={headPointer}, tailPointer={tailPointer}, buffer={ToTraceString(100)}]";
+            return $"TailRingBuffer [MaxCapacity={Capacity}, headPointer={headPointer}, tailPointer={tailPointer}, buffer={ToTraceString(100)}]";
         }
 
     }
