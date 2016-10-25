@@ -7,7 +7,9 @@
     "System.Runtime.Serialization.Primitives": "4.1.1",
     "xunit": "2.2.0-beta3-build3402",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
-    "HoloJson": "0.9.3-beta-*"
+    "HoloJson": {
+      "target": "project"
+    }
   },
   "testRunner": "xunit",
   "frameworks": {
