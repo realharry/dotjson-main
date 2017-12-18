@@ -1,2 +1,2 @@
 # main
-HoloJson JSON Library for .Net Core 
+DotJson JSON Library for .Net Core 
