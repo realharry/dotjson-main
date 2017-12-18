@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>JSON Parser/Serializer for .Net Core (C#).</Description>
+    <Copyright>Copyright 2016</Copyright>
+    <AssemblyTitle>DotJson Library</AssemblyTitle>
+    <VersionPrefix>0.9.4-beta</VersionPrefix>
+    <Authors>Harry Y</Authors>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <AssemblyName>DotJson</AssemblyName>
+    <PackageId>DotJson</PackageId>
+    <PackageTags>JSON;DotNet Core;CSharp</PackageTags>
+    <PackageReleaseNotes>Initial (beta) release.</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/holojson/main</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/holojson/main/blob/master/LICENSE</PackageLicenseUrl>
+    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="1.0.2" />
+  </ItemGroup>
+
+</Project>
